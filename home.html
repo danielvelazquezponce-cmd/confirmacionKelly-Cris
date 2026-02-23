@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Boda Kelly & Cris</title>
+
+<style>
+body {
+    font-family: 'Georgia', serif;
+    text-align: center;
+    background-image: url('https://images.unsplash.com/photo-1527066236128-2ff79f7b9705');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #fff;
+}
+
+.contenedor {
+    background: rgba(0,0,0,0.55);
+    padding: 40px;
+    margin: 100px auto;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 20px;
+}
+
+h1 {
+    font-size: 42px;
+    letter-spacing: 3px;
+}
+
+input {
+    padding: 12px;
+    width: 85%;
+    margin: 15px 0;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+}
+
+button {
+    padding: 12px 25px;
+    margin: 10px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.asistire {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.noasistire {
+    background-color: #e74c3c;
+    color: white;
+}
+
+button:hover {
+    opacity: 0.85;
+}
+</style>
+</head>
+
+<body>
+
+<div class="contenedor">
+<h1>KELLY & CRIS</h1>
+<p>Confirma tu asistencia</p>
+
+<input type="text" id="nombre" placeholder="Escribe tu nombre completo">
+<br>
+<button onclick="buscar()">Buscar</button>
+
+<div id="resultado" style="display:none;">
+    <p>¿Confirmas tu asistencia?</p>
+    <button class="asistire" onclick="responder('Asistirá')">Asistiré</button>
+    <button class="noasistire" onclick="responder('No Asistirá')">No Asistiré</button>
+</div>
+
+<p id="mensaje"></p>
+
+</div>
+
+<script>
+
+function buscar() {
+    var nombre = document.getElementById("nombre").value.trim();
+    if(nombre !== "") {
+        document.getElementById("resultado").style.display = "block";
+    }
+}
+
+function responder(opcion) {
+    var nombre = document.getElementById("nombre").value;
+
+    fetch("https://script.google.com/macros/s/AKfycbxVfmFBSwsYujv1_Msyln-4o7pcm_IWMkB94JMAn8uG7_SNjtjNO1jueqpRP8dZZ-tVnQ/exec", {
+        method: "POST",
+        body: JSON.stringify({
+            nombre: nombre,
+            respuesta: opcion
+        })
+    })
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById("mensaje").innerHTML = "¡Gracias por confirmar tu asistencia! 💍";
+        document.getElementById("resultado").style.display = "none";
+    })
+    .catch(error => {
+        document.getElementById("mensaje").innerHTML = "Hubo un error, intenta nuevamente.";
+    });
+}
+
+</script>
+
+</body>
+</html>
