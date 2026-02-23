@@ -1,0 +1,45 @@
+<script>
+
+function buscar() {
+    var nombre = document.getElementById("nombre").value.trim();
+
+    if(nombre !== "") {
+        document.getElementById("resultado").style.display = "block";
+        document.getElementById("mensaje").innerHTML = "";
+    } else {
+        document.getElementById("mensaje").innerHTML = "Por favor escribe tu nombre.";
+    }
+}
+
+function responder(opcion) {
+
+    var nombre = document.getElementById("nombre").value.trim();
+
+    if(nombre === ""){
+        document.getElementById("mensaje").innerHTML = "Escribe tu nombre primero.";
+        return;
+    }
+
+    fetch("https://script.google.com/macros/s/AKfycbxOY3L2gg5gWaSoUiNMhzujrimDKOYq_jPe9N4QefPUSbl0zyRWJfNyUELOwUsaCv6I/exec", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            nombre: nombre,
+            respuesta: opcion
+        })
+    })
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById("mensaje").innerHTML = "¡Confirmación enviada correctamente! 💍✨";
+        document.getElementById("resultado").style.display = "none";
+        document.getElementById("nombre").value = "";
+    })
+    .catch(error => {
+        document.getElementById("mensaje").innerHTML = "Hubo un error al enviar la confirmación.";
+        console.error(error);
+    });
+}
+
+</script>
